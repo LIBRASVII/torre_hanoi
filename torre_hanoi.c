@@ -1,39 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct hanoi {
-  int cap;
-  char torre_A, torre_B, torre_C;
-  char *prox;
-  int top;
-} Hanoi;
+typedef struct pilha {
+  int origem, destino, aux;
+  int *top;
+} Pilha;
 
-void cria_torre(Hanoi *, int);
-void push_A(Hanoi *, char);
-void hanoi(Hanoi *, char, char, char);
+typedef struct torres {
+  char *torre_A, *torre_B, *torre_C;
+  int info;
+  struct hanoi *prox;
+} Torres;
 
-int main() {
-  Hanoi hanoi;
-  int cap;
+Pilha *cria_torre(void);
+void push_torre(Pilha *, char);
+void hanoi(Pilha *, char, char, char);
 
-  printf("\nCap torre ==> ");
-  scanf("%d", &cap);
+int main() { return 0; }
 
-  cria_torre(&hanoi, cap);
+void hanoi(Pilha *h, char a, char b, char c) { h->origem = a; }
 
-  return 0;
+Pilha *cria_torre(void) {
+  Pilha *t = (Pilha *)malloc(sizeof(int));
+  t->top = NULL;
+  t->origem = 0;
+  return t;
 }
 
-void hanoi(Hanoi *h, char a, char b, char c) {}
-
-void cria_torre(Hanoi *h, int c) {
-  h->prox = (char *)malloc(c * sizeof(int));
-  h->top = -1;
-  h->cap = c;
+void push_torre(Pilha *h, char v) {
+  Pilha *t = (Pilha *)malloc(sizeof(Pilha));
+  t->origem = v;
+  t->destino = h->top;
+  h->top = t;
 }
 
-void push_A(Hanoi *h, char v) {
-  h->torre_A = v;
-  h->top = v;
-  h->top++;
-}
+int hanoi_vazia(Pilha *h) { return h->top == -1; }
